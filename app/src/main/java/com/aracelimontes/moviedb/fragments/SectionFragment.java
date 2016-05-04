@@ -12,9 +12,14 @@ import android.widget.Toast;
 import com.aracelimontes.moviedb.CustomApiClient;
 import com.aracelimontes.moviedb.R;
 import com.aracelimontes.moviedb.adapters.MovieAdapter;
+import com.aracelimontes.moviedb.entity.Genres;
 import com.aracelimontes.moviedb.entity.MovieResult;
 import com.aracelimontes.moviedb.entity.PeopleResult;
 import com.aracelimontes.moviedb.entity.TVResult;
+import com.aracelimontes.moviedb.util.Utils;
+import com.squareup.okhttp.internal.Util;
+
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,6 +35,9 @@ public class SectionFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private MovieAdapter mAdapter;
+
+    private Map<String, String> movieGenres;
+    private Map<String, String> tvGenres;
 
     public SectionFragment() {
     }
@@ -61,13 +69,41 @@ public class SectionFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        fetchData();
+        customApiClient = new CustomApiClient();
+
+        customApiClient.getService().listMovieGenre(getResources().getString(R.string.API_KEY))
+                .enqueue(new Callback<Genres>() {
+                    @Override
+                    public void onResponse(Call<Genres> call, Response<Genres> response) {
+                        movieGenres = Utils.listToMap(response.body());
+                        fetchData();
+                    }
+
+                    @Override
+                    public void onFailure(Call<Genres> call, Throwable t) {
+
+                    }
+                });
+
+
     }
 
 
     //TODO
     private void fetchData() {
-        customApiClient = new CustomApiClient();
+
+        customApiClient.getService().listTvGenre(getResources().getString(R.string.API_KEY))
+                .enqueue(new Callback<Genres>() {
+                    @Override
+                    public void onResponse(Call<Genres> call, Response<Genres> response) {
+                        tvGenres = Utils.listToMap(response.body());
+                    }
+
+                    @Override
+                    public void onFailure(Call<Genres> call, Throwable t) {
+                        t.printStackTrace();
+                    }
+                });
 
         customApiClient.getService().listPopularMovies(getResources().getString(R.string.API_KEY))
                 .enqueue(new Callback<MovieResult>() {
@@ -77,7 +113,7 @@ public class SectionFragment extends Fragment {
                         if(response.body().results.size() > 0)
                         {
                             Toast.makeText(getContext(), "movies", Toast.LENGTH_SHORT).show();
-                            mAdapter.setData(response.body().results);
+                            mAdapter.setData(response.body().results, tvGenres);
                         }
                     }
 
@@ -112,7 +148,7 @@ public class SectionFragment extends Fragment {
 
                         if (response.body().results.size() > 0)
                         {
-                            Toast.makeText(getContext(), "tv shows", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "people", Toast.LENGTH_SHORT).show();
                             //mAdapter.setData(response.body().results);
                         }
                     }

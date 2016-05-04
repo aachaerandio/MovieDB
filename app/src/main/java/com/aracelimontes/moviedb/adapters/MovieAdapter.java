@@ -10,10 +10,13 @@ import android.widget.TextView;
 
 import com.aracelimontes.moviedb.R;
 import com.aracelimontes.moviedb.entity.Movie;
+import com.aracelimontes.moviedb.util.Utils;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by araceli.montes on 03/05/2016.
@@ -22,6 +25,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     public ArrayList<Movie> mData;
     private Context mContext;
+    private Map<String, String> mGenres;
 
     public MovieAdapter(Context context) {
         this.mContext = context;
@@ -51,17 +55,25 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             mHolder.title.setText(item.title);
             mHolder.description.setText(item.overview);
-            mHolder.date.setText(item.releaseDate);
+            mHolder.date.setText(Utils.getYear(item.releaseDate));
             mHolder.rating.setText(item.voteAverage.toString());
-            //mHolder.subtitle.setText() -> genreIds
+            mHolder.subtitle.setText(Utils.translateAndJoin(item.genreIds, mGenres));
+
+            mHolder.moreBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
         }
 
     }
 
-    public void setData(List<Movie> movieList)
+    public void setData(List<Movie> movieList, Map<String, String> movieGenres)
     {
         mData.clear();
         mData.addAll(movieList);
+        mGenres = movieGenres;
         notifyDataSetChanged();
     }
 
@@ -73,7 +85,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public class MovieVH extends RecyclerView.ViewHolder
     {
         public ImageView image;
-        public TextView title, subtitle, description, rating, date;
+        public TextView title, subtitle, description, rating, date, moreBtn;
 
         public MovieVH(View v)
         {
@@ -84,6 +96,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             description = (TextView) v.findViewById(R.id.description);
             rating = (TextView) v.findViewById(R.id.rating);
             date = (TextView) v.findViewById(R.id.date);
+            moreBtn = (TextView) v.findViewById(R.id.moreBtn);
         }
     }
 }

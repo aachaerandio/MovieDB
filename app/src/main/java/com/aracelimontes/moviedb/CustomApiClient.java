@@ -1,5 +1,6 @@
 package com.aracelimontes.moviedb;
 
+import com.aracelimontes.moviedb.entity.Genres;
 import com.aracelimontes.moviedb.entity.MovieResult;
 import com.aracelimontes.moviedb.entity.PeopleResult;
 import com.aracelimontes.moviedb.entity.TVResult;
@@ -33,7 +34,13 @@ public class CustomApiClient {
         @GET("tv/popular")
         Call<TVResult> listPopularTvShows(@Query("api_key") String apiKey);
 
-        @GET("person/id")
+        @GET("person/popular")
         Call<PeopleResult> listPeople(@Query("api_key") String apiKey);
+
+        @GET("genre/tv/list")
+        Call<Genres> listTvGenre(@Query("api_key") String apiKey);
+
+        @GET("genre/movie/list")
+        Call<Genres> listMovieGenre(@Query("api_key") String apiKey);
     }
 }
