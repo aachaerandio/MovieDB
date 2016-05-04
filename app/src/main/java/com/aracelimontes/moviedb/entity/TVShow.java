@@ -5,16 +5,16 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Movie {
+public class TVShow {
 
     public static final String TMDB_IMAGE_PATH = "http://image.tmdb.org/t/p/w500";
 
-    @SerializedName("adult")
-    @Expose
-    public Boolean adult;
     @SerializedName("backdrop_path")
     @Expose
     public String backdropPath;
+    @SerializedName("first_air_date")
+    @Expose
+    public String firstAirDate;
     @SerializedName("genre_ids")
     @Expose
     public List<Integer> genreIds = new ArrayList<Integer>();
@@ -24,27 +24,24 @@ public class Movie {
     @SerializedName("original_language")
     @Expose
     public String originalLanguage;
-    @SerializedName("original_title")
+    @SerializedName("original_name")
     @Expose
-    public String originalTitle;
+    public String originalName;
     @SerializedName("overview")
     @Expose
     public String overview;
-    @SerializedName("release_date")
+    @SerializedName("origin_country")
     @Expose
-    public String releaseDate;
+    public List<String> originCountry = new ArrayList<String>();
     @SerializedName("poster_path")
     @Expose
     public String posterPath;
     @SerializedName("popularity")
     @Expose
     public Double popularity;
-    @SerializedName("title")
+    @SerializedName("name")
     @Expose
-    public String title;
-    @SerializedName("video")
-    @Expose
-    public Boolean video;
+    public String name;
     @SerializedName("vote_average")
     @Expose
     public Double voteAverage;
@@ -59,5 +56,6 @@ public class Movie {
     public String getBackdrop() {
         return TMDB_IMAGE_PATH  + backdropPath;
     }
+
 
 }

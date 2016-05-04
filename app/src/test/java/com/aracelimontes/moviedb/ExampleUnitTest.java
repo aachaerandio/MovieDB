@@ -1,6 +1,6 @@
 package com.aracelimontes.moviedb;
 
-import com.aracelimontes.moviedb.entity.MovieDB;
+import com.aracelimontes.moviedb.entity.MovieResult;
 
 import junit.framework.Assert;
 
@@ -28,7 +28,7 @@ public class ExampleUnitTest {
     public void testCallsSync() throws Exception {
         Assert.assertNotNull(customApiClient);
 
-        MovieDB movies = customApiClient.getService().listPopularMovies(API_KEY)
+        MovieResult movies = customApiClient.getService().listPopularMovies(API_KEY)
                 .execute().body();
         Assert.assertNotNull(movies);
     }
@@ -38,15 +38,15 @@ public class ExampleUnitTest {
         Assert.assertNotNull(customApiClient);
 
         customApiClient.getService().listPopularMovies(API_KEY)
-            .enqueue(new Callback<MovieDB>() {
+            .enqueue(new Callback<MovieResult>() {
                 @Override
-                public void onResponse(Call<MovieDB> call, Response<MovieDB> response) {
+                public void onResponse(Call<MovieResult> call, Response<MovieResult> response) {
                     Assert.assertNotNull(response.body());
                     Assert.assertTrue(response.body().results.size() > 0);
                 }
 
                 @Override
-                public void onFailure(Call<MovieDB> call, Throwable t) {
+                public void onFailure(Call<MovieResult> call, Throwable t) {
                     Assert.fail();
                 }
             });

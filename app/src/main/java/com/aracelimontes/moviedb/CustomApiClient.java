@@ -1,6 +1,8 @@
 package com.aracelimontes.moviedb;
 
-import com.aracelimontes.moviedb.entity.MovieDB;
+import com.aracelimontes.moviedb.entity.MovieResult;
+import com.aracelimontes.moviedb.entity.PeopleResult;
+import com.aracelimontes.moviedb.entity.TVResult;
 
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -26,6 +28,12 @@ public class CustomApiClient {
 
     public interface MovieService {
         @GET("movie/popular")
-        Call<MovieDB> listPopularMovies(@Query("api_key") String apiKey);
+        Call<MovieResult> listPopularMovies(@Query("api_key") String apiKey);
+
+        @GET("tv/popular")
+        Call<TVResult> listPopularTvShows(@Query("api_key") String apiKey);
+
+        @GET("person/id")
+        Call<PeopleResult> listPeople(@Query("api_key") String apiKey);
     }
 }

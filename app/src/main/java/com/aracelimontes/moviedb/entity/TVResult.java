@@ -5,14 +5,14 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class MovieDB {
+public class TVResult {
 
 @SerializedName("page")
 @Expose
 public Integer page;
 @SerializedName("results")
 @Expose
-public List<Movie> results = new ArrayList<Movie>();
+public List<TVResult> results = new ArrayList<TVResult>();
 @SerializedName("total_pages")
 @Expose
 public Integer totalPages;
