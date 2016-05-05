@@ -2,6 +2,7 @@ package com.aracelimontes.moviedb.fragments;
 
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.aracelimontes.moviedb.R;
 import com.aracelimontes.moviedb.adapters.MovieAdapter;
@@ -35,6 +36,7 @@ public class SectionMovieFragment extends SectionFragment {
                     @Override
                     public void onFailure(Call<Genres> call, Throwable t) {
                         t.printStackTrace();
+                        showDialog();
                     }
                 });
     }
@@ -48,11 +50,12 @@ public class SectionMovieFragment extends SectionFragment {
     @Override
     protected void fetchData()
     {
+        mLoading.setVisibility(View.VISIBLE);
         customApiClient.getService().listPopularMovies(getResources().getString(R.string.API_KEY))
                 .enqueue(new Callback<MovieResult>() {
                     @Override
                     public void onResponse(Call<MovieResult> call, Response<MovieResult> response) {
-
+                        mLoading.setVisibility(View.GONE);
                         if (response.body().results.size() > 0) {
                             mAdapter.setData(response.body().results, movieGenres);
                         }
@@ -60,7 +63,8 @@ public class SectionMovieFragment extends SectionFragment {
 
                     @Override
                     public void onFailure(Call<MovieResult> call, Throwable t) {
-                        t.printStackTrace();
+                        mLoading.setVisibility(View.GONE);
+                        showDialog();
                     }
                 });
     }

@@ -2,6 +2,7 @@ package com.aracelimontes.moviedb;
 
 import android.text.TextUtils;
 
+import com.aracelimontes.moviedb.entity.DetailResult;
 import com.aracelimontes.moviedb.entity.Genres;
 import com.aracelimontes.moviedb.entity.MovieResult;
 import com.aracelimontes.moviedb.util.Utils;
@@ -49,6 +50,15 @@ public class ExampleUnitTest {
         Assert.assertNotNull(customApiClient);
 
         Genres body = customApiClient.getService().listMovieGenre(API_KEY).execute().body();
+
+        Assert.assertNotNull(body);
+    }
+
+    @Test
+    public void testdetailCalls() throws Exception {
+        Assert.assertNotNull(customApiClient);
+
+        DetailResult body = customApiClient.getService().detailsMovie("271110", API_KEY).execute().body();
 
         Assert.assertNotNull(body);
     }

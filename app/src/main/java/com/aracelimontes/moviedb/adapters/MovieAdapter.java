@@ -1,6 +1,7 @@
 package com.aracelimontes.moviedb.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,11 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aracelimontes.moviedb.R;
+import com.aracelimontes.moviedb.activities.DetailActivity;
 import com.aracelimontes.moviedb.entity.Movie;
 import com.aracelimontes.moviedb.util.Utils;
 import com.squareup.picasso.Picasso;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -28,8 +29,8 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private Map<String, String> mGenres;
 
     public MovieAdapter(Context context) {
-        this.mContext = context;
-        this.mData = new ArrayList<>();
+        mContext = context;
+        mData = new ArrayList<>();
     }
 
     @Override
@@ -46,7 +47,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if(holder instanceof MovieVH)
         {
             MovieVH mHolder = (MovieVH) holder;
-            Movie item = mData.get(position);
+            final Movie item = mData.get(position);
             //full URL for image
             Picasso.with(mContext)
                     .load(item.getPoster())
@@ -55,14 +56,17 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             mHolder.title.setText(item.title);
             mHolder.description.setText(item.overview);
-            mHolder.date.setText(Utils.getYear(item.releaseDate));
-            mHolder.rating.setText(item.voteAverage.toString());
+            mHolder.date.setText(Utils.getYear(item.releaseDate)); //+ mContext.getResources().getString(R.string.calendar).toUpperCase()
+            mHolder.rating.setText(item.voteAverage.toString() + mContext.getResources().getString(R.string.star).toUpperCase());
             mHolder.subtitle.setText(Utils.translateAndJoin(item.genreIds, mGenres));
 
             mHolder.moreBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    Intent detail = new Intent(v.getContext(), DetailActivity.class);
+                    detail.putExtra("id", item.id.toString());
+                    detail.putExtra("type", "MOVIE");
+                    v.getContext().startActivity(detail);
                 }
             });
         }

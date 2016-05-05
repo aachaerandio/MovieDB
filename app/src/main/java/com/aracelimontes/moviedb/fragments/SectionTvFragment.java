@@ -2,6 +2,7 @@ package com.aracelimontes.moviedb.fragments;
 
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.aracelimontes.moviedb.R;
 import com.aracelimontes.moviedb.adapters.TVAdapter;
@@ -34,7 +35,7 @@ public class SectionTvFragment extends SectionFragment {
 
                     @Override
                     public void onFailure(Call<Genres> call, Throwable t) {
-                        t.printStackTrace();
+                        showDialog();
                     }
                 });
     }
@@ -48,11 +49,12 @@ public class SectionTvFragment extends SectionFragment {
     @Override
     protected void fetchData()
     {
+        mLoading.setVisibility(View.VISIBLE);
         customApiClient.getService().listPopularTvShows(getResources().getString(R.string.API_KEY))
                 .enqueue(new Callback<TVResult>() {
                     @Override
                     public void onResponse(Call<TVResult> call, Response<TVResult> response) {
-
+                        mLoading.setVisibility(View.GONE);
                         if (response.body().results.size() > 0)
                         {
                             mAdapter.setData(response.body().results, tvGenres);
@@ -61,7 +63,8 @@ public class SectionTvFragment extends SectionFragment {
 
                     @Override
                     public void onFailure(Call<TVResult> call, Throwable t) {
-                        t.printStackTrace();
+                        mLoading.setVisibility(View.GONE);
+                        showDialog();
                     }
                 });
     }

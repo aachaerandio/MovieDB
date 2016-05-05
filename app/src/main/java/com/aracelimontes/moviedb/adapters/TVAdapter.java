@@ -1,6 +1,7 @@
 package com.aracelimontes.moviedb.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aracelimontes.moviedb.R;
+import com.aracelimontes.moviedb.activities.DetailActivity;
 import com.aracelimontes.moviedb.entity.TVShow;
 import com.aracelimontes.moviedb.util.Utils;
 import com.squareup.picasso.Picasso;
@@ -45,7 +47,7 @@ public class TVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if(holder instanceof TvVH)
         {
             TvVH mHolder = (TvVH) holder;
-            TVShow item = mData.get(position);
+            final TVShow item = mData.get(position);
             //full URL for image
             Picasso.with(mContext)
                     .load(item.getPoster())
@@ -54,14 +56,17 @@ public class TVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             mHolder.title.setText(item.name);
             mHolder.description.setText(item.overview);
-            mHolder.date.setText(Utils.getYear(item.firstAirDate));
-            mHolder.rating.setText(item.voteAverage.toString());
+            mHolder.date.setText(Utils.getYear(item.firstAirDate)); //+ mContext.getResources().getString(R.string.calendar).toUpperCase()
+            mHolder.rating.setText(item.voteAverage.toString() + mContext.getResources().getString(R.string.star).toUpperCase());
             mHolder.subtitle.setText(Utils.translateAndJoin(item.genreIds, mGenres));
 
             mHolder.moreBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    Intent detail = new Intent(v.getContext(), DetailActivity.class);
+                    detail.putExtra("id", item.id.toString());
+                    detail.putExtra("type", "TV");
+                    v.getContext().startActivity(detail);
                 }
             });
         }

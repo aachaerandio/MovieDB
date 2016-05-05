@@ -1,4 +1,4 @@
-package com.aracelimontes.moviedb;
+package com.aracelimontes.moviedb.activities;
 
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.aracelimontes.moviedb.R;
 import com.aracelimontes.moviedb.adapters.SectionsPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {

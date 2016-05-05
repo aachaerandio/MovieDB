@@ -1,5 +1,6 @@
 package com.aracelimontes.moviedb.entity;
 
+import com.aracelimontes.moviedb.CustomApiClient;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -7,8 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class People {
-
-    public static final String TMDB_IMAGE_PATH = "http://image.tmdb.org/t/p/w500";
 
     @SerializedName("adult")
     @Expose
@@ -30,7 +29,7 @@ public class People {
     public String profilePath;
 
     public String getPoster() {
-        return TMDB_IMAGE_PATH + profilePath;
+        return CustomApiClient.TMDB_IMAGE_PATH + profilePath;
     }
 
 }

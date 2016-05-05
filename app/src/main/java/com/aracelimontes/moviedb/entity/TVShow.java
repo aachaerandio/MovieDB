@@ -2,12 +2,12 @@ package com.aracelimontes.moviedb.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.aracelimontes.moviedb.CustomApiClient;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class TVShow {
-
-    public static final String TMDB_IMAGE_PATH = "http://image.tmdb.org/t/p/w500";
 
     @SerializedName("backdrop_path")
     @Expose
@@ -50,11 +50,11 @@ public class TVShow {
     public Integer voteCount;
 
     public String getPoster() {
-        return TMDB_IMAGE_PATH + posterPath;
+        return CustomApiClient.TMDB_IMAGE_PATH + posterPath;
     }
 
     public String getBackdrop() {
-        return TMDB_IMAGE_PATH  + backdropPath;
+        return CustomApiClient.TMDB_IMAGE_PATH  + backdropPath;
     }
 
 

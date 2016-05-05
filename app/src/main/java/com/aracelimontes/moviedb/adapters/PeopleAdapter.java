@@ -2,6 +2,7 @@ package com.aracelimontes.moviedb.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aracelimontes.moviedb.R;
+import com.aracelimontes.moviedb.entity.KnownFor;
 import com.aracelimontes.moviedb.entity.People;
-import com.aracelimontes.moviedb.entity.TVShow;
-import com.aracelimontes.moviedb.util.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ public class PeopleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        view = inflater.inflate(R.layout.item_people, parent, false);
+        view = inflater.inflate(R.layout.item_movie, parent, false);
 
         return new PeopleVH(view);
     }
@@ -51,13 +51,19 @@ public class PeopleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         {
             PeopleVH mHolder = (PeopleVH) holder;
             People item = mData.get(position);
-            //full URL for image
             Picasso.with(mContext)
                     .load(item.getPoster())
                     .placeholder(R.color.colorAccent)
                     .into(mHolder.image);
 
             mHolder.title.setText(item.name);
+            List<String> titles = new ArrayList<>();
+            for(KnownFor knownItem : item.knownFor)
+            {
+                titles.add(knownItem.title);
+            }
+            mHolder.description.setText(TextUtils.join(" ,", titles));
+            mHolder.moreBtn.setVisibility(View.GONE);
         }
     }
 
@@ -68,13 +74,15 @@ public class PeopleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private class PeopleVH extends RecyclerView.ViewHolder {
         public ImageView image;
-        public TextView title, description;
+        public TextView title, description, moreBtn;
 
         public PeopleVH(View v) {
             super(v);
             image = (ImageView) v.findViewById(R.id.imageView);
             title = (TextView) v.findViewById(R.id.title);
             description = (TextView) v.findViewById(R.id.description);
+            moreBtn = (TextView) v.findViewById(R.id.moreBtn);
+
         }
     }
 }
