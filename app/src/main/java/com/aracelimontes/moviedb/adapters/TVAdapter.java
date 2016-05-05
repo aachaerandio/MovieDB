@@ -9,25 +9,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aracelimontes.moviedb.R;
-import com.aracelimontes.moviedb.entity.Movie;
+import com.aracelimontes.moviedb.entity.TVShow;
 import com.aracelimontes.moviedb.util.Utils;
 import com.squareup.picasso.Picasso;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 /**
- * Created by araceli.montes on 03/05/2016.
+ * Created by araceli.montes on 04/05/2016.
  */
-public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class TVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    public ArrayList<Movie> mData;
+    public ArrayList<TVShow> mData;
     private Context mContext;
     private Map<String, String> mGenres;
 
-    public MovieAdapter(Context context) {
+    public TVAdapter(Context context) {
         this.mContext = context;
         this.mData = new ArrayList<>();
     }
@@ -38,24 +37,24 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         view = inflater.inflate(R.layout.item_movie, parent, false);
 
-        return new MovieVH(view);
+        return new TvVH(view);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if(holder instanceof MovieVH)
+        if(holder instanceof TvVH)
         {
-            MovieVH mHolder = (MovieVH) holder;
-            Movie item = mData.get(position);
+            TvVH mHolder = (TvVH) holder;
+            TVShow item = mData.get(position);
             //full URL for image
             Picasso.with(mContext)
                     .load(item.getPoster())
                     .placeholder(R.color.colorAccent)
                     .into(mHolder.image);
 
-            mHolder.title.setText(item.title);
+            mHolder.title.setText(item.name);
             mHolder.description.setText(item.overview);
-            mHolder.date.setText(Utils.getYear(item.releaseDate));
+            mHolder.date.setText(Utils.getYear(item.firstAirDate));
             mHolder.rating.setText(item.voteAverage.toString());
             mHolder.subtitle.setText(Utils.translateAndJoin(item.genreIds, mGenres));
 
@@ -69,7 +68,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     }
 
-    public void setData(List<Movie> movieList, Map<String, String> genres)
+    public void setData(List<TVShow> movieList, Map<String, String> genres)
     {
         mData.clear();
         mData.addAll(movieList);
@@ -82,12 +81,12 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return (mData == null) ? 0 : mData.size();
     }
 
-    public class MovieVH extends RecyclerView.ViewHolder
+    public class TvVH extends RecyclerView.ViewHolder
     {
         public ImageView image;
         public TextView title, subtitle, description, rating, date, moreBtn;
 
-        public MovieVH(View v)
+        public TvVH(View v)
         {
             super(v);
             image = (ImageView) v.findViewById(R.id.imageView);
@@ -100,3 +99,4 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
     }
 }
+

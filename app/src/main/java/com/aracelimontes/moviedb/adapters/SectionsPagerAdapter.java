@@ -6,7 +6,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.aracelimontes.moviedb.R;
-import com.aracelimontes.moviedb.fragments.SectionFragment;
+import com.aracelimontes.moviedb.fragments.SectionMovieFragment;
+import com.aracelimontes.moviedb.fragments.SectionPeopleFragment;
+import com.aracelimontes.moviedb.fragments.SectionTvFragment;
 
 /**
  * Created by araceli.montes on 03/05/2016.
@@ -22,7 +24,15 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return SectionFragment.newInstance(position + 1);
+        switch (position)
+        {
+            case 0:
+            default: return new SectionMovieFragment();
+
+            case 1: return new SectionTvFragment();
+
+            case 2: return new SectionPeopleFragment();
+        }
     }
 
     @Override

@@ -12,7 +12,7 @@ public class TVResult {
 public Integer page;
 @SerializedName("results")
 @Expose
-public List<TVResult> results = new ArrayList<TVResult>();
+public List<TVShow> results = new ArrayList<TVShow>();
 @SerializedName("total_pages")
 @Expose
 public Integer totalPages;
